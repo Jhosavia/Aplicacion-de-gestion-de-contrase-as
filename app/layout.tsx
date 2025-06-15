@@ -9,7 +9,7 @@ const poppins = Poppins ({
 });
 
 export const metadata: Metadata = {
-  title: "JhosaviaPassword",
+  title: "TarrePassword",
   description: "Creando un administrador de contraseñas",
 };
 
