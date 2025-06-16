@@ -1,5 +1,6 @@
 import { Logo } from '@/components/Shared/Logo'
 import { Sidebar } from '@/components/Shared/Sidebar'
+import SidebarMobile from '@/components/Shared/SidebarMobile/SidebarMobile'
 import React from 'react'
 
 
@@ -14,7 +15,7 @@ export default function LayoutRoutes({
       <Logo />
     </div>
         <div>
-      SidebarMobile
+      <SidebarMobile />
         </div>
       </div>
     <div className="flex h-full">
