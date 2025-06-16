@@ -1,5 +1,6 @@
 import { Logo } from '@/components/Shared/Logo'
 import { Sidebar } from '@/components/Shared/Sidebar'
+import { Toaster } from "@/components/ui/sonner"
 import SidebarMobile from '@/components/Shared/SidebarMobile/SidebarMobile'
 import React from 'react'
 
@@ -10,6 +11,7 @@ export default function LayoutRoutes({
 
   return (
     <main className="h-full">
+       <Toaster />
       <div className="flex justify-between lg:hidden px-6 py-3 items-center bg-blue-800">
     <div className="py-1 text-white">
       <Logo />

@@ -16,10 +16,16 @@ import { Input } from "@/components/ui/input"
 import { formSchema } from "./FormAddElement.form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Copy, Earth, Eye, Shuffle } from "lucide-react"
+import { copyClipboard } from "@/lib/copyClipboard"
+import { useState } from "react"
+import { generatePassword } from "@/lib/generatePassword"
+import { Textarea } from "@/components/ui/textarea"
 
 
 
 export function FormAddElement() {
+    const [showPassword, setShowPassword] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,6 +48,13 @@ export function FormAddElement() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+  }
+  const generateRandomPassword = () => {
+    const password = generatePassword()
+    form.setValue("password",password)
+  }
+  const updateUrl = () => {
+    form.setValue("urlWebsite", window.location.href);
   }
   return (
     <div>
@@ -134,7 +147,99 @@ export function FormAddElement() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+         <FormField 
+        control={form.control}
+        name="username"
+        render={({field}) =>(
+            <FormItem>
+                <FormLabel>Usuario</FormLabel>
+                <FormControl>
+                    <div className="relative">
+                    <Input {...field} />
+                    <Copy 
+                    className="absolute top-2.5 right-4 cursor-pointer" 
+                    size={18} 
+                    onClick={()=>{
+                        copyClipboard(field.value);
+                    }}/>
+
+                    </div>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+        />
+        <FormField 
+        control={form.control}
+        name="urlWebsite"
+        render={({field}) =>(
+            <FormItem>
+                <FormLabel>Url website</FormLabel>
+                <FormControl>
+                    <div className="relative">
+                    <Input {...field} />
+                    <Earth className="absolute top-3 right-2 cursor-pointer" 
+                    size={18} 
+                    onClick={updateUrl}/>
+                    </div>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+        />
+        <FormField 
+        control={form.control}
+        name="password"
+        render={({field}) =>(
+            <FormItem>
+                <FormLabel className="justify-between">Password
+                    <Shuffle className="cursor-pointer" size={15} 
+                    onClick={generateRandomPassword}/>
+                </FormLabel>
+                <FormControl>
+                    <div className="relative">
+                    <Input {...field}  
+                    type={showPassword ? "text" : "password"}
+                    />
+                    <Eye className="absolute top-3 right-10 cursor-pointer" 
+                    size={18} 
+                    onClick={()=>setShowPassword(!showPassword)}
+                    />
+                    <Copy className="absolute top-3 right-2.5 cursor-pointer" 
+                    onClick={()=>copyClipboard(field.value)}
+                    size={18}
+                    />
+                    </div>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+        />
+        <div>
+            <div className="text-slate-400 flex items-center justify-between text-sm">
+                Autentificacion TOPT
+                <p className="px-3 bg-green-700 text-white rounded-lg text-xs mr-5">
+                    Premium
+                </p>
+            </div>
+            <Input disabled/>
+        </div>
+           <FormField 
+        control={form.control}
+        name="notes"
+        render={({field}) =>(
+            <FormItem>
+                <FormLabel>Notes</FormLabel>
+                <FormControl>
+                    <Textarea {...field} />
+                </FormControl>
+                
+                <FormMessage />
+            </FormItem>
+        )}
+        />
+        <div />
+        <Button type="submit">Guardar</Button>
       </form>
     </Form>
 
