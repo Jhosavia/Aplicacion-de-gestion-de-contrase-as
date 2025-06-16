@@ -24,11 +24,14 @@ import { generatePassword } from "@/lib/generatePassword"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { ROUTES_MANIFEST } from "next/dist/shared/lib/constants"
+import { FormAddElementProps } from "./FormAddElement.types"
 
 
 
 
-export function FormAddElement() {
+export function FormAddElement(props: FormAddElementProps) {
+    const {userId} = props
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,7 +46,7 @@ export function FormAddElement() {
             password:"",
             urlWebsite:"",
             notes:"",
-            userId: "asdsf",
+            userId: userId,
         }
     },
   })
@@ -61,7 +64,7 @@ export function FormAddElement() {
             password:"",
             urlWebsite:"",
             notes:"",
-            userId: "asdsf", 
+            userId: userId, 
         })
 
         router.refresh();
