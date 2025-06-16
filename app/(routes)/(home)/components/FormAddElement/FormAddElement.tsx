@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import axios from 'axios'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -21,11 +22,15 @@ import { copyClipboard } from "@/lib/copyClipboard"
 import { useState } from "react"
 import { generatePassword } from "@/lib/generatePassword"
 import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+
 
 
 
 export function FormAddElement() {
     const [showPassword, setShowPassword] = useState(false)
+    const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,12 +48,32 @@ export function FormAddElement() {
     },
   })
  
-  // 2. Define a submit handler.
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try{
+        await axios.post("/api/items",values)
+        toast("Item created")
+        form.reset({
+            typeElement: "",
+            isFavourite: false,
+            name: "",
+            directory: "",
+            username: "",
+            password:"",
+            urlWebsite:"",
+            notes:"",
+            userId: "asdsf", 
+        })
+
+        router.refresh();
+
+
+
+    }catch(error){
+        toast("Something went wrong")
+        console.log(error)
+    }
   }
+  
   const generateRandomPassword = () => {
     const password = generatePassword()
     form.setValue("password",password)
