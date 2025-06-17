@@ -84,7 +84,7 @@ export function SidebarRoutes() {
     ))}
 
     <SingleItem
-    href="/analytic"
+    href="/analytics"
     label="Analytics"
     icon={BarChart}
     />
