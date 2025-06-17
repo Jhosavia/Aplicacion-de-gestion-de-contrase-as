@@ -8,7 +8,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "@/components/ui/sonner";
 import { Element } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Copy, MoreHorizontal, User } from "lucide-react";
@@ -45,9 +44,6 @@ export const columns: ColumnDef<ColumnProps>[] = [
 
       const copyItemClipboard = (item: string, name: string) => {
         navigator.clipboard.writeText(item);
-        toast({
-          title: `${name} copied ✅`,
-        });
       };
 
       return (

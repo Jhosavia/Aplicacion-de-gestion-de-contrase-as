@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { toast } from "@/components/ui/sonner";
+
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -46,14 +46,6 @@ export function RegisterForm() {
 
     if (response.status === 200) {
       router.push("/");
-      toast({
-        title: "Registro se ha realizado con éxito ✌🏽",
-      });
-    } else {
-      toast({
-        title: "Error al realizar el registro",
-        variant: "destructive",
-      });
     }
   };
 

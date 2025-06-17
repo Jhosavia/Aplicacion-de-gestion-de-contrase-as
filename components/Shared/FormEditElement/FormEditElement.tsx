@@ -28,7 +28,6 @@ import { copyClipboard } from "@/lib/copyClipboard";
 import { useState } from "react";
 import { generatePassword } from "@/lib/generatePassword";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/sonner";
 import { useRouter } from "next/navigation";
 
 import { FormEditElementProps } from "./FormEditElement.types";
@@ -57,14 +56,11 @@ export function FormEditElement(props: FormEditElementProps) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/items/${dataElement.id}`, values);
-      toast({ title: "Item edited ✌🏽" });
+     
 
       router.push("/");
     } catch (error) {
-      toast({
-        title: "Something went wrong",
-        variant: "destructive",
-      });
+     
     }
   };
 
