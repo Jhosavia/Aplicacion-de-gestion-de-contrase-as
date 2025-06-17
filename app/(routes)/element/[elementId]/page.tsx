@@ -3,31 +3,17 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-// ✅ Importa el tipo correcto
-import { type Metadata } from "next";
-
-type Props = {
-  params: {
-    elementId: string;
-  };
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return {
-    title: `Elemento ${params.elementId}`,
-  };
-}
-
-export default async function ElementPage({ params }: Props) {
+// 👇 En lugar de "params", usamos otra variable
+export default async function ElementPage({ params: routeParams }: any) {
   const session = await getServerSession();
 
-  if (!session || !session.user?.email) {
+  if (!session?.user?.email) {
     redirect("/");
   }
 
   const element = await db.element.findUnique({
     where: {
-      id: params.elementId,
+      id: routeParams.elementId,
     },
   });
 
