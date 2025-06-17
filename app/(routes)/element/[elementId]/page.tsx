@@ -3,18 +3,26 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-// ✅ Tipado explícito para evitar el error en el build
-interface PageProps {
+// ✅ Importa el tipo correcto
+import { type Metadata } from "next";
+
+type Props = {
   params: {
     elementId: string;
   };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Elemento ${params.elementId}`,
+  };
 }
 
-export default async function ElementPage({ params }: PageProps) {
+export default async function ElementPage({ params }: Props) {
   const session = await getServerSession();
 
   if (!session || !session.user?.email) {
-    return redirect("/");
+    redirect("/");
   }
 
   const element = await db.element.findUnique({
