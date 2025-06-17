@@ -3,17 +3,20 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-// 👇 En lugar de "params", usamos otra variable
-export default async function ElementPage({ params: routeParams }: any) {
+export default async function ElementPage({
+  params,
+}: {
+  params: { elementId: string };
+}) {
   const session = await getServerSession();
 
-  if (!session?.user?.email) {
-    redirect("/");
+  if (!session || !session.user?.email) {
+    return redirect("/");
   }
 
   const element = await db.element.findUnique({
     where: {
-      id: routeParams.elementId,
+      id: params.elementId,
     },
   });
 
