@@ -3,11 +3,14 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default async function ElementPage({
-  params,
-}: {
-  params: { elementId: string };
-}) {
+// ✅ Tipado explícito para evitar el error en el build
+interface PageProps {
+  params: {
+    elementId: string;
+  };
+}
+
+export default async function ElementPage({ params }: PageProps) {
   const session = await getServerSession();
 
   if (!session || !session.user?.email) {
